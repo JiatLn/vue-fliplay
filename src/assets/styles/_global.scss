@@ -1,0 +1,11 @@
+@import './mixin';
+
+html,
+body {
+  @apply w-full h-full;
+  // @include scroll();
+}
+
+#app {
+  @apply w-full h-full;
+}

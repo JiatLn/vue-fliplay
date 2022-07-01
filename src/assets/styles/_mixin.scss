@@ -1,0 +1,52 @@
+@mixin scroll($w: 5px, $hide: transparent) {
+  overflow: auto;
+
+  /* 设置滚动条的样式 */
+  &::-webkit-scrollbar {
+    transition: all 0.2s;
+    background-color: transparent;
+    width: $w;
+    height: $w;
+  }
+
+  &:hover::-webkit-scrollbar {
+    transition: all 0.2s;
+    width: $w;
+    height: $w;
+  }
+
+  /* 滚动槽 */
+  &::-webkit-scrollbar-track {
+    transition: all 0.2s ease-out;
+    background-color: transparent;
+    width: 5px;
+    border-radius: 10px;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    transition: all 0.2s ease-out;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  /* 滚动条滑块 */
+  &::-webkit-scrollbar-thumb {
+    transition: all 0.2s ease-out;
+    border-radius: 4px;
+    background-color: $hide;
+  }
+}
+
+@mixin empty-scroll($w: 5px) {
+  @include scroll($w, rgba(0, 0, 0, 0.1));
+}
+
+@mixin hide-scroll {
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    transition: all 0.2s;
+    background-color: transparent;
+    width: 0;
+    height: 0;
+  }
+}
