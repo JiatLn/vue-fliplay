@@ -3,7 +3,6 @@ import { defineConfig, loadEnv } from 'vite'
 
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
-import legacy from '@vitejs/plugin-legacy'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import PurgeIcons from 'vite-plugin-purge-icons'
@@ -24,12 +23,6 @@ export default ({ mode }) => {
       Vue(),
       VueJsx(),
       Unocss(),
-      legacy({
-        targets: ['ie >= 11'],
-        additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-        // https://github.com/vitejs/vite/issues/5952
-        modernPolyfills: true,
-      }),
       PurgeIcons({
         /* PurgeIcons Options */
         content: ['**/*.html', '**/*.js', '**/*.vue'],

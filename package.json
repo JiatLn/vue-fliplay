@@ -1,6 +1,6 @@
 {
-  "name": "vvtt",
-  "version": "1.0.0",
+  "name": "vue-flip-demo",
+  "version": "0.0.1",
   "author": {
     "name": "JiatLn",
     "email": "lne128gene980@163.com"
@@ -37,7 +37,6 @@
   "devDependencies": {
     "@iconify/json": "^2.1.70",
     "@types/node": "^18.0.0",
-    "@vitejs/plugin-legacy": "^1.8.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "eslint": "^8.18.0",
     "husky": "^8.0.1",
