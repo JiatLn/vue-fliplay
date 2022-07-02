@@ -21,7 +21,7 @@ export const FlipWarpper = defineComponent({
   setup(props, ctx) {
     const lastRectRef = ref<Map<number, FlipItemType>>(new Map())
     const uniqueIdRef = ref<number>(0)
-    const fnRef: IFlipContext = {
+    const flipCtx: IFlipContext = {
       add(flipItem: FlipItemType) {
         lastRectRef.value.set(flipItem.flipId, flipItem)
       },
@@ -33,25 +33,25 @@ export const FlipWarpper = defineComponent({
         return uniqueIdRef.value
       },
     }
-    provide('fnRef', fnRef)
 
-    watch(props, () => {
-      lastRectRef.value.forEach((item) => {
+    watch(() => props.flipKey, () => {
+      lastRectRef.value.forEach((item: FlipItemType) => {
         item.rect = item.node?.getBoundingClientRect()
       })
-      nextTick(play)
+      nextTick(flip)
     }, { deep: true })
 
-    function play() {
+    function flip() {
       const currentRectMap = new Map<number, DOMRect>()
-      lastRectRef.value.forEach((item) => {
+      lastRectRef.value.forEach((item: FlipItemType) => {
         currentRectMap.set(item.flipId, item.node!.getBoundingClientRect())
       })
-      lastRectRef.value.forEach((item) => {
-        const currRect = currentRectMap.get(item.flipId)
-        const prevRect = item.rect
-        if (!currRect || !prevRect || !item.node)
+      lastRectRef.value.forEach((prevItem: FlipItemType) => {
+        const currRect = currentRectMap.get(prevItem.flipId)
+        const prevRect = prevItem.rect
+        if (!currRect || !prevRect || !prevItem.node)
           return
+
         // Invert
         const invert = {
           left: prevRect.left - currRect.left,
@@ -60,15 +60,6 @@ export const FlipWarpper = defineComponent({
 
         if (invert.top === 0 && invert.left === 0)
           return
-
-        const keyframes = [
-          {
-            transform: `translate(${invert.left}px, ${invert.top}px)`,
-          },
-          {
-            transform: 'translate(0, 0)',
-          },
-        ]
 
         const isLastRectOverflow
           = prevRect.right < 0
@@ -86,12 +77,23 @@ export const FlipWarpper = defineComponent({
           return
 
         // Play
-        item.node.animate(keyframes, {
+        const keyframes: Keyframe[] = [
+          {
+            transform: `translate(${invert.left}px, ${invert.top}px)`,
+          },
+          {
+            transform: 'translate(0, 0)',
+          },
+        ]
+
+        prevItem.node.animate(keyframes, {
           duration: 800,
           easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)',
         })
       })
     }
+
+    provide<IFlipContext>('flipCtx', flipCtx)
 
     return () => {
       const slot = ctx.slots.default?.()
@@ -105,24 +107,26 @@ export const FlipWarpper = defineComponent({
 export const FlipItem = defineComponent({
   name: 'FlipItem',
   setup(_, ctx) {
-    const currRef = ref<HTMLDivElement | null>()
-    const fnRef = inject<IFlipContext>('fnRef')!
-    const flipId = fnRef.nextId()
+    const currEl = ref<HTMLDivElement | null>()
+    const flipCtx = inject<IFlipContext>('flipCtx')!
+
+    // unique Id
+    const flipId = flipCtx.nextId()
 
     onMounted(() => {
-      if (currRef.value)
-        fnRef.add({ flipId, node: currRef.value })
+      if (currEl.value)
+        flipCtx.add({ flipId, node: currEl.value })
     })
 
     onBeforeUnmount(() => {
-      fnRef.remove(flipId)
+      flipCtx.remove(flipId)
     })
 
     return () => {
       const slot = ctx.slots.default?.()
       if (!slot?.length)
         throw new Error('FlipItem requires a slot, but not found')
-      return h('div', { ref: currRef }, slot)
+      return h('div', { ref: currEl }, slot)
     }
   },
 })
