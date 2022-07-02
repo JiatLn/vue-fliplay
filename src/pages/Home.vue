@@ -3,7 +3,7 @@ import { shuffle } from 'lodash-es'
 import type { StyleValue } from 'vue'
 import { FlipItem, FlipWarpper } from '@/components/Flipper'
 
-const LIST = Array.from({ length: 25 }, (_, idx) => idx + 1)
+const LIST = Array.from({ length: 24 }, (_, idx) => idx + 1)
 const list = ref<number[]>(LIST)
 
 function shuffleList() {
@@ -14,24 +14,24 @@ function addEl() {
   list.value = ([list.value.length + 1]).concat(list.value)
 }
 
-const size = ref(32)
+const size = ref(4)
 const styles = computed((): StyleValue => {
-  return { width: `${size.value}px`, height: `${size.value}px` }
+  return { width: `${size.value}rem`, height: `${size.value}rem` }
 })
 
 function reset() {
   list.value = LIST
-  size.value = 32
+  size.value = 4
 }
 
 function enlarge() {
-  size.value += 8
+  size.value += 1
 }
 </script>
 
 <template>
-  <div flex="c col" gap-4 h-full w-full>
-    <div flex="c gap-4">
+  <div flex="~ col" gap-4 h-full mx-auto w="5/6">
+    <div flex="c gap-4" my-4>
       <button btn @click="shuffleList">
         shuffle
       </button>
@@ -45,14 +45,19 @@ function enlarge() {
         enlarge
       </button>
     </div>
-    {{ list }}
+    <div text="center">
+      data: {{ list }}
+    </div>
     <FlipWarpper :flip-key="{ list, size }">
-      <h3 font="mono bold" text="2xl" mb-4 text-center>
-        Flip
-      </h3>
-      <div w-40 h-80 flex="~ wrap" content-start>
-        <FlipItem v-for="item in list" :key="item" :style="styles" flex="c" border="1px solid black">
-          <div>{{ item }}</div>
+      <div flex-c mb-4 gap-4>
+        <h3 font="mono bold" text="2xl" text-center>
+          Vue-Flip
+        </h3>
+        <a i-akar-icons:github-fill cursor-pointer color-gray-600 hover:color-brand-primary href="https://github.com/JiatLn/vue-flip-demo" target="_blank" />
+      </div>
+      <div w="3/4" mx-auto h-80 flex="~ wrap gap-2" content-start>
+        <FlipItem v-for="item in list" :key="item" flex="c">
+          <TheBox :style="styles" :title="`${item}`" />
         </FlipItem>
       </div>
     </FlipWarpper>
