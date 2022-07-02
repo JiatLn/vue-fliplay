@@ -1,16 +1,12 @@
-import type { Ref } from 'vue'
-
-interface FlipItemType {
+export interface FlipItemType {
   flipId: number
   node: HTMLElement | null | undefined
   rect?: DOMRect
 }
+
 export interface IFlipContext {
-  // mount 后执行 add
   add: (item: FlipItemType) => void
-  // unout 后执行 remove
   remove: (flipId: number) => void
-  // 自增唯一 id
   nextId: () => number
 }
 
@@ -18,13 +14,14 @@ export const FlipWarpper = defineComponent({
   name: 'FlipWarpper',
   props: {
     flipKey: {
+      tpye: Object,
       required: true,
     },
   },
   setup(props, ctx) {
     const lastRectRef = ref<Map<number, FlipItemType>>(new Map())
     const uniqueIdRef = ref<number>(0)
-    const fnRef = ref<IFlipContext>({
+    const fnRef: IFlipContext = {
       add(flipItem: FlipItemType) {
         lastRectRef.value.set(flipItem.flipId, flipItem)
       },
@@ -35,7 +32,7 @@ export const FlipWarpper = defineComponent({
         uniqueIdRef.value++
         return uniqueIdRef.value
       },
-    })
+    }
     provide('fnRef', fnRef)
 
     watch(props, () => {
@@ -98,9 +95,9 @@ export const FlipWarpper = defineComponent({
 
     return () => {
       const slot = ctx.slots.default?.()
-      if (!slot)
+      if (!slot?.length)
         throw new Error('FlipWarpper requires a slot, but not found')
-      return h('div', { }, [slot])
+      return h('div', {}, slot)
     }
   },
 })
@@ -109,21 +106,23 @@ export const FlipItem = defineComponent({
   name: 'FlipItem',
   setup(_, ctx) {
     const currRef = ref<HTMLDivElement | null>()
-    const fnRef = inject<Ref<IFlipContext>>('fnRef')!
+    const fnRef = inject<IFlipContext>('fnRef')!
+    const flipId = fnRef.nextId()
 
-    const flipId = fnRef.value.nextId()
     onMounted(() => {
       if (currRef.value)
-        fnRef.value.add({ flipId, node: currRef.value })
+        fnRef.add({ flipId, node: currRef.value })
     })
+
     onBeforeUnmount(() => {
-      fnRef.value.remove(flipId)
+      fnRef.remove(flipId)
     })
+
     return () => {
       const slot = ctx.slots.default?.()
-      if (!slot)
+      if (!slot?.length)
         throw new Error('FlipItem requires a slot, but not found')
-      return h('div', { ref: currRef }, [slot])
+      return h('div', { ref: currRef }, slot)
     }
   },
 })
