@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { shuffle } from 'lodash-es'
 import type { StyleValue } from 'vue'
+import { FlipItem, FlipWarpper } from '@/components/Flipper'
 
 const LIST = Array.from({ length: 25 }, (_, idx) => idx + 1)
 const list = ref<number[]>(LIST)
@@ -24,7 +25,7 @@ function reset() {
 }
 
 function enlarge() {
-  size.value += 2
+  size.value += 8
 }
 </script>
 
@@ -45,11 +46,16 @@ function enlarge() {
       </button>
     </div>
     {{ list }}
-    <Flipper :watcher="{ list, size }" w-40 h-80 flex="~ wrap" content-start>
-      <div v-for="item in list" :key="item" :style="styles" flex="c" border="1px solid black">
-        {{ item }}
+    <FlipWarpper :flip-key="{ list, size }">
+      <h3 font="mono bold" text="2xl" mb-4 text-center>
+        Flip
+      </h3>
+      <div w-40 h-80 flex="~ wrap" content-start>
+        <FlipItem v-for="item in list" :key="item" :style="styles" flex="c" border="1px solid black">
+          <div>{{ item }}</div>
+        </FlipItem>
       </div>
-    </Flipper>
+    </FlipWarpper>
   </div>
 </template>
 
