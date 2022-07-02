@@ -1,17 +1,15 @@
 import * as path from 'path'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import PurgeIcons from 'vite-plugin-purge-icons'
 import Unocss from 'unocss/vite'
 
 // https://vitejs.dev/config/
-export default ({ mode }) => {
+export default () => {
   // 加载 .env.[mode]
-  const config = loadEnv(mode, './')
   return defineConfig({
     resolve: {
       alias: {
@@ -23,20 +21,14 @@ export default ({ mode }) => {
       Vue(),
       VueJsx(),
       Unocss(),
-      PurgeIcons({
-        /* PurgeIcons Options */
-        content: ['**/*.html', '**/*.js', '**/*.vue'],
-      }),
       AutoImport({
         imports: [
           'vue',
-          'vue-router',
           '@vueuse/core',
         ],
         dts: 'src/auto-import.d.ts',
         dirs: [
           'src/composables',
-          'src/store',
         ],
         vueTemplate: true,
         resolvers: [],
@@ -48,16 +40,6 @@ export default ({ mode }) => {
     ],
     server: {
       host: '0.0.0.0',
-      proxy: {
-        [config.VITE_BASE_API]: {
-          target: config.VITE_API_URL,
-          changeOrigin: true,
-          rewrite: (path) => {
-            const reg = new RegExp(`^${config.VITE_BASE_API}`)
-            return path.replace(reg, '')
-          },
-        },
-      },
     },
     // to solve warning: "@charset" must be the first rule in the file
     css: {

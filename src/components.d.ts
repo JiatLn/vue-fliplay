@@ -5,11 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AppIcon: typeof import('./components/common/AppIcon.vue')['default']
     Flipper: typeof import('./components/Flipper.vue')['default']
-    LazyImg: typeof import('./components/common/LazyImg.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
     TheBox: typeof import('./components/common/TheBox.vue')['default']
   }
 }
