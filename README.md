@@ -1,4 +1,4 @@
-# vue-flip-demo
+# vue-flip
 
 > Inspired by [react-flip-demo](https://github.com/MinJieLiu/react-flip-demo)
 
