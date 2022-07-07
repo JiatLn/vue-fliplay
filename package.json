@@ -1,11 +1,16 @@
 {
   "name": "vue-fliplay",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "JiatLn",
     "email": "lne128gene980@163.com"
   },
   "license": "MIT",
+  "homepage": "https://github.com/JiatLn/vue-fliplay",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiatLn/vue-fliplay.git"
+  },
   "keywords": [
     "vue",
     "animation",
