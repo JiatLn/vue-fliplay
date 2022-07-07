@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { shuffle } from 'lodash-es'
 import type { StyleValue } from 'vue'
-import { FlipItem, FlipWarpper } from 'Flipper'
+import { FlipItem, FlipWarpper } from 'vue-fliplay'
 
 const LIST = Array.from({ length: 24 }, (_, idx) => idx + 1)
 const list = ref<number[]>(LIST)
@@ -34,9 +34,9 @@ function enlarge() {
     <FlipWarpper :flip-key="{ list, size }" mt-8>
       <div flex-c gap-4>
         <h3 font="mono bold" text="2xl" text-center>
-          Vue-Flip
+          Vue-Fliplay
         </h3>
-        <a i-akar-icons:github-fill cursor-pointer color-gray-600 hover:color-brand-primary href="https://github.com/JiatLn/vue-flip-demo" target="_blank" />
+        <a i-akar-icons:github-fill cursor-pointer color-gray-600 hover:color-brand-primary href="https://github.com/JiatLn/vue-fliplay" target="_blank" />
       </div>
       <div text="center" my-4>
         data: {{ list }}

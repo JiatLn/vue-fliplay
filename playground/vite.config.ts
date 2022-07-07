@@ -15,7 +15,7 @@ export default () => {
       alias: {
         '@/': `${path.resolve(__dirname, 'src')}/`,
         '~/': `${path.resolve(__dirname, 'src')}/`,
-        'Flipper': path.resolve(__dirname, '../src/index.ts'),
+        'vue-fliplay': path.resolve(__dirname, '../src/index.ts'),
       },
     },
     plugins: [
