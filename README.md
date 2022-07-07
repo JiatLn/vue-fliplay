@@ -10,10 +10,8 @@ npm install -g yarn
 
 yarn install
 
-yarn run dev
+yarn run play
 ```
-
-
 
 ## 📄 License
 

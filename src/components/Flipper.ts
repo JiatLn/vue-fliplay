@@ -1,14 +1,5 @@
-export interface FlipItemType {
-  flipId: number
-  node: HTMLElement | null | undefined
-  rect?: DOMRect
-}
-
-export interface IFlipContext {
-  add: (item: FlipItemType) => void
-  remove: (flipId: number) => void
-  nextId: () => number
-}
+import { defineComponent, h, inject, nextTick, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue'
+import type { FlipItemType, IFlipContext } from '../types'
 
 export const FlipWarpper = defineComponent({
   name: 'FlipWarpper',
