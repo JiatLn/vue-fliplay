@@ -5,7 +5,7 @@ export const FlipWarpper = defineComponent({
   name: 'FlipWarpper',
   props: {
     flipKey: {
-      tpye: Object,
+      type: Object,
       required: true,
     },
   },
