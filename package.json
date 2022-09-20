@@ -33,6 +33,7 @@
     "dev": "pkgroll --watch",
     "build": "pkgroll",
     "play": "vite playground --open",
+    "play:build": "vite build playground",
     "typecheck": "vue-tsc --noEmit",
     "preview": "vite preview",
     "prepare": "husky install",
