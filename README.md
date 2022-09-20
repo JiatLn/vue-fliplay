@@ -43,7 +43,7 @@ import { FlipItem, FlipWarpper } from 'vue-fliplay'
 </FlipWarpper>
 ```
 
-Checkout the [Playground](./playground/) for more examples.
+Checkout the [Playground](https://vue-flip.netlify.app) for more examples.
 
 ## Props
 
